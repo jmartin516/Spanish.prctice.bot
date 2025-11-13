@@ -137,3 +137,38 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Spanish IA Tutor specific files
+uploads/
+temp/
+tmp/
+audio-temp/
+
+# Database files (development)
+*.sqlite
+*.sqlite3
+*.db
+
+# n8n data
+n8n/data/
+n8n/credentials/
+n8n/logs/
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Test files
+coverage/
+test-results/
+
+# Build directories
+build/
+dist/

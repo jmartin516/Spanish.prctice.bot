@@ -1,0 +1,246 @@
+{
+  "name": "Spanish IA Tutor - Main Conversation Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spanish-tutor",
+        "responseMode": "responseNode",
+        "options": {
+          "noResponseBody": false
+        }
+      },
+      "id": "webhook-start",
+      "name": "Webhook Start",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "spanish-tutor-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.action }}",
+              "operation": "equal",
+              "value2": "process_conversation"
+            }
+          ]
+        }
+      },
+      "id": "route-action",
+      "name": "Route by Action",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "messageValues": [
+            {
+              "role": "system",
+              "message": "Eres un tutor de español nativo y experimentado. Tu trabajo es mantener conversaciones naturales en español con estudiantes para ayudarles a practicar. Siempre responde en español, mantén un tono amigable y educativo, y proporciona correcciones sutiles cuando sea necesario."
+            },
+            {
+              "role": "user", 
+              "message": "={{ $json.transcript || 'Hola, quiero practicar español contigo.' }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 500
+        }
+      },
+      "id": "openai-chat",
+      "name": "OpenAI Chat",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.choices[0].message.content }}",
+        "voice": "es-ES-ElviraNeural",
+        "options": {
+          "speed": "medium",
+          "pitch": "medium"
+        }
+      },
+      "id": "text-to-speech",
+      "name": "Text to Speech",
+      "type": "n8n-nodes-base.microsoftTts",
+      "typeVersion": 1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "table": "conversations",
+        "columns": {
+          "columnValues": {
+            "user_id": "={{ $json.userId }}",
+            "session_id": "={{ $json.conversationId }}",
+            "user_message": "={{ $json.transcript }}",
+            "ai_response": "={{ $('OpenAI Chat').item.json.choices[0].message.content }}",
+            "audio_url": "={{ $('Text to Speech').item.json.audioUrl }}",
+            "created_at": "={{ new Date().toISOString() }}"
+          }
+        }
+      },
+      "id": "save-conversation",
+      "name": "Save to Database",
+      "type": "n8n-nodes-base.mysql",
+      "typeVersion": 1,
+      "position": [1120, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "success": true,
+          "aiResponse": "={{ $('OpenAI Chat').item.json.choices[0].message.content }}",
+          "audioUrl": "={{ $('Text to Speech').item.json.audioUrl }}",
+          "conversationId": "={{ $json.conversationId }}",
+          "timestamp": "={{ new Date().toISOString() }}"
+        }
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "messageValues": [
+            {
+              "role": "system",
+              "message": "Genera 5 temas de conversación interesantes y apropiados para practicar español. Los temas deben ser variados, culturalmente relevantes y adaptados al nivel del estudiante. Responde solo con un array JSON de temas."
+            },
+            {
+              "role": "user",
+              "message": "Nivel del estudiante: {{ $json.userLevel || 'intermediate' }}. Genera temas de conversación."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.8,
+          "maxTokens": 300
+        }
+      },
+      "id": "generate-topics",
+      "name": "Generate Topics",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "success": true,
+          "suggestedTopics": "={{ JSON.parse($json.choices[0].message.content) }}",
+          "sessionId": "={{ $json.userId }}_{{ new Date().getTime() }}",
+          "greeting": "¡Hola! Soy tu tutor de español. ¿Sobre qué te gustaría conversar hoy?"
+        }
+      },
+      "id": "topics-response",
+      "name": "Topics Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Webhook Start": {
+      "main": [
+        [
+          {
+            "node": "Route by Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Action": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Chat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat": {
+      "main": [
+        [
+          {
+            "node": "Text to Speech",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text to Speech": {
+      "main": [
+        [
+          {
+            "node": "Save to Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Database": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Topics": {
+      "main": [
+        [
+          {
+            "node": "Topics Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "1.0.0",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "spanish-tutor-conversation",
+  "tags": ["spanish", "ai", "tutor", "conversation"]
+}
