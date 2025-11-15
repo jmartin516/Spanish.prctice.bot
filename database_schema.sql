@@ -1,14 +1,14 @@
--- Spanish IA Tutor Database Schema
+-- Spanish AI Tutor Database Schema
 -- Created: 2024-11-15
 
--- Crear base de datos
+-- Create database
 CREATE DATABASE IF NOT EXISTS spanish_tutor_db 
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 
 USE spanish_tutor_db;
 
--- Tabla de usuarios
+-- Users table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE users (
     INDEX idx_level (language_level)
 );
 
--- Tabla de conversaciones
+-- Conversations table
 CREATE TABLE conversations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE conversations (
     INDEX idx_difficulty (difficulty)
 );
 
--- Tabla de mensajes
+-- Messages table
 CREATE TABLE messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     conversation_id INT NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE messages (
     INDEX idx_created_at (created_at)
 );
 
--- Tabla de vocabulario
+-- Vocabulary table
 CREATE TABLE vocabulary_words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     spanish_word VARCHAR(255) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE vocabulary_words (
     INDEX idx_difficulty (difficulty_level)
 );
 
--- Tabla de sesiones de práctica
+-- Practice sessions table
 CREATE TABLE practice_sessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE practice_sessions (
     INDEX idx_completed (completed)
 );
 
--- Tabla de progreso del usuario
+-- User progress table
 CREATE TABLE user_progress (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE user_progress (
     INDEX idx_skill_type (skill_type)
 );
 
--- Tabla de configuraciones del sistema
+-- System settings table
 CREATE TABLE system_settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     setting_key VARCHAR(100) UNIQUE NOT NULL,
@@ -129,9 +129,9 @@ CREATE TABLE system_settings (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Insertar datos iniciales
+-- Insert initial data
 
--- Vocabulario básico para comenzar
+-- Basic vocabulary to get started
 INSERT INTO vocabulary_words (spanish_word, english_translation, pronunciation, category, difficulty_level, usage_example) VALUES
 ('hola', 'hello', 'OH-lah', 'greetings', 'beginner', 'Hola, ¿cómo estás?'),
 ('adiós', 'goodbye', 'ah-DYOHS', 'greetings', 'beginner', 'Adiós, hasta mañana.'),
@@ -149,7 +149,7 @@ INSERT INTO vocabulary_words (spanish_word, english_translation, pronunciation, 
 ('amigo', 'friend', 'ah-MEE-go', 'relationships', 'beginner', 'Mi amigo es muy simpático.'),
 ('tiempo', 'time/weather', 'TYEM-po', 'basic', 'beginner', 'No tengo tiempo ahora.');
 
--- Configuraciones del sistema
+-- System configurations
 INSERT INTO system_settings (setting_key, setting_value, description) VALUES
 ('app_version', '1.0.0', 'Current application version'),
 ('default_language_level', 'beginner', 'Default language level for new users'),
@@ -157,9 +157,9 @@ INSERT INTO system_settings (setting_key, setting_value, description) VALUES
 ('session_timeout_minutes', '30', 'Session timeout in minutes'),
 ('ai_model_version', 'gpt-3.5-turbo', 'AI model used for conversations');
 
--- Triggers para actualizar contadores automáticamente
+-- Triggers to automatically update counters
 
--- Trigger para actualizar total_messages en conversations
+-- Trigger to update total_messages in conversations
 DELIMITER //
 CREATE TRIGGER update_conversation_message_count 
     AFTER INSERT ON messages
@@ -172,7 +172,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- Trigger para actualizar points cuando se completa una sesión
+-- Trigger to update points when a session is completed
 DELIMITER //
 CREATE TRIGGER update_user_points
     AFTER UPDATE ON practice_sessions
@@ -186,12 +186,12 @@ BEGIN
 END//
 DELIMITER ;
 
--- Crear índices adicionales para optimización
+-- Create additional indexes for optimization
 CREATE INDEX idx_messages_created_at ON messages(created_at);
 CREATE INDEX idx_conversations_updated_at ON conversations(updated_at);
 CREATE INDEX idx_practice_sessions_created_at ON practice_sessions(created_at);
 
--- Vista para estadísticas de usuario
+-- View for user statistics
 CREATE VIEW user_stats AS
 SELECT 
     u.id as user_id,
@@ -209,7 +209,7 @@ LEFT JOIN practice_sessions ps ON u.id = ps.user_id
 WHERE u.is_active = TRUE
 GROUP BY u.id, u.username, u.total_points, u.language_level;
 
--- Mostrar estructura creada
+-- Show created structure
 SHOW TABLES;
 SELECT COUNT(*) as vocabulary_words_inserted FROM vocabulary_words;
 SELECT COUNT(*) as system_settings_inserted FROM system_settings;

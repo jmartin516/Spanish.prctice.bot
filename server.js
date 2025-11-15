@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-// Cargar variables de entorno
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Importar rutas del backend (con manejo de errores)
+// Import backend routes (with error handling)
 try {
     const authRoutes = require('./backend/src/routes/auth');
     const conversationRoutes = require('./backend/src/routes/conversation');
@@ -68,7 +68,7 @@ try {
     });
 }
 
-// Servir archivos estáticos del frontend en producción
+// Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'frontend/build')));
     
@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// Middleware de manejo de errores
+// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ 
