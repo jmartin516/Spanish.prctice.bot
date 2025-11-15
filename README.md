@@ -112,11 +112,82 @@ npm start
 ```
 
 ### 4. Configurar Base de Datos
+
+#### 4.1. Crear Base de Datos y Usuario
+
+Conéctate a MySQL como root:
 ```bash
-# Crear base de datos MySQL
+# En macOS con Homebrew:
+/opt/homebrew/opt/mysql/bin/mysql -u root -p
+
+# O si MySQL está en el PATH:
 mysql -u root -p
-CREATE DATABASE spanish_tutor;
-# Ejecutar migraciones (cuando estén disponibles)
+```
+
+Ejecuta los siguientes comandos SQL:
+```sql
+-- Crear la base de datos
+CREATE DATABASE spanish_tutor CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Crear usuario (reemplaza 'your_secure_password' con una contraseña segura)
+CREATE USER 'spanish_tutor_user'@'localhost' IDENTIFIED BY 'your_secure_password';
+
+-- Otorgar permisos
+GRANT ALL PRIVILEGES ON spanish_tutor.* TO 'spanish_tutor_user'@'localhost';
+
+-- Aplicar cambios
+FLUSH PRIVILEGES;
+
+-- Verificar que se creó correctamente
+SHOW DATABASES;
+EXIT;
+```
+
+#### 4.2. Configurar Variables de Entorno
+
+Crea el archivo `.env` en la carpeta `backend/`:
+```bash
+cd backend
+cp .env.example .env
+```
+
+Edita el archivo `.env` y configura las credenciales de la base de datos:
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=spanish_tutor
+DB_USER=spanish_tutor_user
+DB_PASSWORD=your_secure_password
+```
+
+#### 4.3. Ejecutar Migraciones
+
+Ejecuta las migraciones para crear las tablas:
+```bash
+cd backend
+npm run migrate
+```
+
+Esto creará las siguientes tablas:
+- `users` - Usuarios del sistema
+- `conversations` - Sesiones de conversación
+- `messages` - Mensajes de las conversaciones
+- `logs` - Sistema de logging
+
+#### 4.4. Verificar Conexión
+
+Para verificar que todo funciona correctamente:
+```bash
+# Conectarte a la base de datos con el nuevo usuario
+mysql -u spanish_tutor_user -p spanish_tutor
+
+# Ver las tablas creadas
+SHOW TABLES;
+
+# Ver estructura de una tabla
+DESCRIBE users;
+DESCRIBE logs;
+EXIT;
 ```
 
 ### 5. Configurar n8n

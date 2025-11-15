@@ -1,4 +1,5 @@
 const axios = require('axios');
+const loggerService = require('./services/loggerService');
 
 class N8NService {
   constructor() {
@@ -31,12 +32,25 @@ class N8NService {
         timeout: 30000 // 30 seconds timeout
       });
 
+      // Loggear éxito
+      await loggerService.info('N8N conversation processed', {
+        userId: conversationData.userId,
+        conversationId: conversationData.conversationId,
+        metadata: { executionId: response.data.executionId }
+      });
+
       return {
         success: true,
         data: response.data,
         executionId: response.data.executionId
       };
     } catch (error) {
+      // Loggear error
+      await loggerService.error('N8N Service Error', error, {
+        userId: conversationData.userId,
+        conversationId: conversationData.conversationId
+      });
+      
       console.error('N8N Service Error:', error.message);
       
       if (error.response) {
@@ -77,6 +91,12 @@ class N8NService {
         timeout: 15000
       });
 
+      // Loggear inicio de sesión
+      await loggerService.info('N8N conversation session started', {
+        userId: sessionData.userId,
+        metadata: { sessionId: response.data.sessionId }
+      });
+
       return {
         success: true,
         topics: response.data.suggestedTopics || [],
@@ -84,6 +104,9 @@ class N8NService {
         aiGreeting: response.data.greeting
       };
     } catch (error) {
+      await loggerService.error('N8N Start Session Error', error, {
+        userId: sessionData.userId
+      });
       console.error('N8N Start Session Error:', error.message);
       return {
         success: false,
@@ -115,6 +138,12 @@ class N8NService {
         timeout: 20000
       });
 
+      // Loggear feedback generado
+      await loggerService.info('N8N feedback generated', {
+        conversationId: feedbackData.conversationId,
+        metadata: { score: response.data.score }
+      });
+
       return {
         success: true,
         feedback: response.data.feedback,
@@ -122,6 +151,9 @@ class N8NService {
         score: response.data.score
       };
     } catch (error) {
+      await loggerService.error('N8N Feedback Error', error, {
+        conversationId: feedbackData.conversationId
+      });
       console.error('N8N Feedback Error:', error.message);
       return {
         success: false,

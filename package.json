@@ -1,0 +1,31 @@
+{
+  "name": "spanish-ia-tutor",
+  "version": "1.0.0",
+  "description": "Spanish AI Tutor with Voice Conversations",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "build": "echo 'Build script ready for frontend integration'"
+  },
+  "keywords": ["spanish", "ai", "tutor", "language", "learning"],
+  "author": "Juan Martin Gonzalez",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "mysql2": "^3.6.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "express-validator": "^7.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
