@@ -238,6 +238,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Juan Martin - [@jmartin516](https://github.com/jmartin516)
 
+Fran Montejano - [@franpcm](https://github.com/franpcm)
+
 Project Link: [https://github.com/jmartin516/Spanish.prctice.bot](https://github.com/jmartin516/Spanish.prctice.bot)
 
 ---
