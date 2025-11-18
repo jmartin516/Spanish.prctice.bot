@@ -1,156 +1,247 @@
-# Spanish IA Tutor 🗣️🤖
+# Spanish AI Tutor 🗣️🤖
 
-Un asistente de inteligencia artificial conversacional para practicar español de manera natural e interactiva a través de conversaciones por voz.
+A conversational artificial intelligence assistant for practicing Spanish naturally and interactively through voice conversations.
 
-## 🌟 Descripción del Proyecto
+## 🌟 Project Description
 
-Spanish IA Tutor es una plataforma innovadora que combina inteligencia artificial con tecnología de reconocimiento y síntesis de voz para ofrecer una experiencia de aprendizaje de español inmersiva y personalizada. El sistema simula conversaciones naturales donde el agente IA propone temas de conversación y mantiene diálogos fluidos, permitiendo a los usuarios practicar sus habilidades de conversación en español de manera realista.
+Spanish AI Tutor is an innovative platform that combines artificial intelligence with speech recognition and synthesis technology to offer an immersive and personalized Spanish learning experience. The system simulates natural conversations where the AI agent proposes conversation topics and maintains fluid dialogues, allowing users to practice their Spanish conversation skills in a realistic way.
 
-### Características Principales
+### Key Features
 
-- 🎤 **Conversaciones por Voz**: Interacción completamente oral simulando llamadas telefónicas reales
-- 🧠 **IA Conversacional**: Agente inteligente que propone temas y mantiene conversaciones naturales
-- 📚 **Temas Variados**: Amplia gama de temas de conversación adaptados al nivel del usuario
-- 🔄 **Flujo Automatizado**: Integración con n8n para gestión de workflows conversacionales
-- 👤 **Experiencia Personalizada**: Adaptación del contenido según el progreso del usuario
-- 📱 **Interfaz Moderna**: Frontend responsivo desarrollado en React
+- 🎤 **Voice Conversations**: Complete oral interaction simulating real phone calls
+- 🧠 **Conversational AI**: Intelligent agent that proposes topics and maintains natural conversations
+- 📚 **Varied Topics**: Wide range of conversation topics adapted to the user's level
+- 🔄 **Automated Flow**: Integration with n8n for conversational workflow management
+- 👤 **Personalized Experience**: Content adaptation based on user progress
+- 📱 **Modern Interface**: Responsive frontend developed in React
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ System Architecture
 
-El proyecto utiliza una arquitectura de microservicios moderna:
+The project uses a modern microservices architecture:
 
-- **Frontend**: React con interfaz de usuario intuitiva
-- **Backend**: Node.js/Express para APIs REST y lógica de negocio
-- **Base de Datos**: MySQL para almacenamiento de usuarios y sesiones
-- **Automatización**: n8n para orquestación de workflows de IA
-- **IA y Voz**: Integración con servicios de LLM y TTS/STT
+- **Frontend**: React with intuitive user interface
+- **Backend**: Node.js/Express for REST APIs and business logic
+- **Database**: MySQL for user and session storage
+- **Automation**: n8n for AI workflow orchestration
+- **AI and Voice**: Integration with LLM and TTS/STT services
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 /spanish-ia-tutor
 ├── /backend
 │   ├── /src
-│   │   ├── /controllers   # Controladores de API (auth, conversation)
-│   │   ├── /database      # Modelos y conexión a MySQL
-│   │   ├── /routes        # Definición de rutas REST
-│   │   ├── server.js      # Servidor principal Express
-│   │   └── n8nService.js  # Integración con webhooks n8n
-│   ├── .env               # Variables de entorno
-│   ├── package.json       # Dependencias Node.js
-│   └── Dockerfile         # Contenedor Docker (opcional)
+│   │   ├── /controllers   # API controllers (auth, conversation)
+│   │   ├── /database      # Models and MySQL connection
+│   │   ├── /routes        # REST route definitions
+│   │   ├── server.js      # Main Express server
+│   │   └── n8nService.js  # n8n webhook integration
+│   ├── .env               # Environment variables
+│   ├── package.json       # Node.js dependencies
+│   └── Dockerfile         # Docker container (optional)
 ├── /frontend
-│   ├── /public            # Archivos estáticos
+│   ├── /public            # Static files
 │   ├── /src
-│   │   ├── /components    # Componentes reutilizables
-│   │   ├── /pages         # Páginas principales
-│   │   ├── /utils         # Utilidades (audio, API)
-│   │   ├── App.js         # Componente raíz
-│   │   └── index.js       # Punto de entrada
-│   ├── .env               # Configuración frontend
-│   └── package.json       # Dependencias React
+│   │   ├── /components    # Reusable components
+│   │   ├── /pages         # Main pages
+│   │   ├── /utils         # Utilities (audio, API)
+│   │   ├── App.js         # Root component
+│   │   └── index.js       # Entry point
+│   ├── .env               # Frontend configuration
+│   └── package.json       # React dependencies
 ├── /n8n
-│   ├── /workflows         # Workflows de automatización
-│   ├── /data              # Datos internos n8n
-│   └── .env               # Configuración n8n
+│   ├── /workflows         # Automation workflows
+│   ├── /data              # n8n internal data
+│   └── .env               # n8n configuration
 ├── .gitignore
 └── README.md
 ```
 
-## 🚀 Tecnologías Utilizadas
+## 🚀 Technologies Used
 
 ### Backend
-- **Node.js** - Runtime de JavaScript
-- **Express.js** - Framework web
-- **MySQL** - Base de datos relacional
-- **JWT** - Autenticación
-- **Multer** - Manejo de archivos de audio
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework
+- **MySQL** - Relational database
+- **JWT** - Authentication
+- **Multer** - Audio file handling
 
 ### Frontend
-- **React** - Librería de UI
-- **Web Audio API** - Grabación y reproducción de audio
-- **Axios** - Cliente HTTP
-- **Material-UI / Tailwind CSS** - Estilizado
+- **React** - UI library
+- **Web Audio API** - Audio recording and playback
+- **Axios** - HTTP client
+- **Material-UI / Tailwind CSS** - Styling
 
-### Automatización e IA
-- **n8n** - Plataforma de automatización
-- **OpenAI GPT** - Modelo de lenguaje
-- **Speech-to-Text** - Reconocimiento de voz
-- **Text-to-Speech** - Síntesis de voz
+### Automation and AI
+- **n8n** - Automation platform
+- **OpenAI GPT** - Language model
+- **Speech-to-Text** - Voice recognition
+- **Text-to-Speech** - Voice synthesis
 
-## 📋 Prerequisitos
+## 📋 Prerequisites
 
-- Node.js (v16 o superior)
-- MySQL (v8.0 o superior)
-- n8n (instalación local o cloud)
-- Claves de API para servicios de IA (OpenAI, etc.)
+- Node.js (v16 or higher)
+- MySQL (v8.0 or higher)
+- n8n (local installation or cloud)
+- API keys for AI services (OpenAI, etc.)
 
-## 🛠️ Instalación y Configuración
+## 🛠️ Installation and Setup
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 ```bash
 git clone https://github.com/jmartin516/Spanish.prctice.bot.git
 cd spanish-ia-tutor
 ```
 
-### 2. Configurar Backend
+### 2. Setup Backend
 ```bash
-cd backend
+# Install dependencies
 npm install
-cp .env.example .env
-# Configurar variables de entorno en .env
+
+# Configure environment variables in .env
+# Start development server
 npm run dev
 ```
 
-### 3. Configurar Frontend
+### 3. Setup Frontend
 ```bash
 cd frontend
 npm install
 cp .env.example .env
-# Configurar URL del backend
+# Configure backend URL
 npm start
 ```
 
-### 4. Configurar Base de Datos
+### 4. Database Setup
+
+#### 4.1. Create Database and User
+
+Connect to MySQL as root:
 ```bash
-# Crear base de datos MySQL
+# On macOS with Homebrew:
+/opt/homebrew/opt/mysql/bin/mysql -u root -p
+
+# Or if MySQL is in PATH:
 mysql -u root -p
-CREATE DATABASE spanish_tutor;
-# Ejecutar migraciones (cuando estén disponibles)
 ```
 
-### 5. Configurar n8n
+Execute the following SQL commands:
+```sql
+-- Create the database
+CREATE DATABASE spanish_tutor_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Create user (replace 'your_secure_password' with a secure password)
+CREATE USER 'spanish_tutor_user'@'localhost' IDENTIFIED BY 'your_secure_password';
+
+-- Grant permissions
+GRANT ALL PRIVILEGES ON spanish_tutor_db.* TO 'spanish_tutor_user'@'localhost';
+
+-- Apply changes
+FLUSH PRIVILEGES;
+
+-- Verify it was created correctly
+SHOW DATABASES;
+EXIT;
+```
+
+#### 4.2. Configure Environment Variables
+
+Update your `.env` file with the database credentials:
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=spanish_tutor_db
+DB_USER=spanish_tutor_user
+DB_PASSWORD=your_secure_password
+```
+
+#### 4.3. Run Database Schema
+
+Execute the schema to create tables:
+```bash
+mysql -u spanish_tutor_user -p spanish_tutor_db < database_schema.sql
+```
+
+This will create the following tables:
+- `users` - System users
+- `conversations` - Conversation sessions
+- `messages` - Conversation messages
+- `vocabulary_words` - Spanish vocabulary
+- `practice_sessions` - Learning sessions
+- `user_progress` - User progress tracking
+
+#### 4.4. Verify Connection
+
+To verify everything works correctly:
+```bash
+# Connect to the database with the new user
+mysql -u spanish_tutor_user -p spanish_tutor_db
+
+# View created tables
+SHOW TABLES;
+
+# View table structure
+DESCRIBE users;
+DESCRIBE messages;
+EXIT;
+```
+
+### 5. Setup n8n
 ```bash
 cd n8n
-# Importar workflows desde /workflows
-# Configurar credenciales de API en n8n
+# Import workflows from /workflows
+# Configure API credentials in n8n
 ```
 
-## 🎯 Uso del Sistema
+## 🎯 System Usage
 
-1. **Registro/Login**: Los usuarios se registran y acceden al sistema
-2. **Selección de Tema**: El sistema propone temas de conversación
-3. **Conversación por Voz**: Interacción natural usando micrófono y altavoces
-4. **Feedback IA**: El agente proporciona retroalimentación y continúa la conversación
-5. **Progreso**: Seguimiento del progreso y mejoras en el tiempo
+1. **Registration/Login**: Users register and access the system
+2. **Topic Selection**: System proposes conversation topics
+3. **Voice Conversation**: Natural interaction using microphone and speakers
+4. **AI Feedback**: Agent provides feedback and continues the conversation
+5. **Progress**: Track progress and improvements over time
 
-## 🤝 Contribución
+## 📊 API Endpoints
 
-Las contribuciones son bienvenidas. Por favor:
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user profile
+- `POST /api/auth/logout` - User logout
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+### User Management
+- `GET /api/user/profile` - Get user profile
+- `PUT /api/user/profile` - Update user profile
+- `DELETE /api/user/account` - Deactivate account
 
+### Conversations
+- `POST /api/conversation/start` - Start new conversation
+- `POST /api/conversation/:id/message` - Send message
+- `GET /api/conversation/:id/history` - Get conversation history
+- `GET /api/conversation/list` - List user conversations
 
-## 📞 Contacto
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Contact
 
 Juan Martin - [@jmartin516](https://github.com/jmartin516)
 
-Link del Proyecto: [https://github.com/jmartin516/Spanish.prctice.bot](https://github.com/jmartin516/Spanish.prctice.bot)
+Fran Montejano - [@franpcm](https://github.com/franpcm)
+
+Project Link: [https://github.com/jmartin516/Spanish.prctice.bot](https://github.com/jmartin516/Spanish.prctice.bot)
 
 ---
 
-⭐ Si este proyecto te ayuda, ¡dale una estrella en GitHub!
+⭐ If this project helps you, give it a star on GitHub!
