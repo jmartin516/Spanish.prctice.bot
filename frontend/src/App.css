@@ -14,6 +14,31 @@
   font-size: calc(10px + 2vmin);
 }
 
+.loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #667eea;
+}
+
+.logout-button {
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
 h1 {
   margin: 20px 0;
 }
